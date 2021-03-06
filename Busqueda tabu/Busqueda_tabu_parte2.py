@@ -223,7 +223,7 @@ if __name__ == "__main__":
             w_cost=pcost
             w_sol=psol
 
-    print("Solucion inicial",solucion,cost)
+    print("Solucion inicial",b_sol,b_cost)
    
 
     print(w_sol,w_cost)
