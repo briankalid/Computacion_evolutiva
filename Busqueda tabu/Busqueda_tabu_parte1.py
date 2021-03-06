@@ -42,8 +42,6 @@ def sol_ini(n, dic):
 
 
 
-def busqueda_tabu(cities,sol_tmp):
-    raise 
 
 def better_cost(dic,neighborhood):
 
@@ -73,7 +71,7 @@ def gen_neighborhood(sol,l_tabu):
 
     sel_city=random.randint(1,9)
 
-    while sel_city in l_tabu:
+    while str(sel_city) in l_tabu:
         sel_city=random.randint(1,9)
 
 

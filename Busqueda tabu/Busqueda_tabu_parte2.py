@@ -76,7 +76,8 @@ def gen_neighborhood(sol,l_tabu):
 
     sel_city=random.randint(1,9)
 
-    while sel_city in l_tabu:
+    while str(sel_city) in l_tabu:
+        #print('sista')
         sel_city=random.randint(1,9)
 
 
