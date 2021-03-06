@@ -91,14 +91,29 @@ def gen_neighborhood(sol,l_tabu):
     return neighborhood,str(sel_city)
 
 
-def input_man(n):
+def input_file():
+
+    file_name=input('file name: ')
+
+    file = open(file_name,'r') 
+    
+    lista=[i for i in file.read().split('\n')]
+    
+    while '' in lista:
+        lista.remove('')
+    
+    n=int(lista[0])
+
+    i_max=int(lista[1])
+
+    lista=lista[2:]
 
     city_bri = {}
 
 
     for i in range(n-1):
 
-        aux = [int(i) for i in input().split()]
+        aux = [int(j) for j in lista[i].split()]
 
         if str(i) not in city_bri:
             city_bri[str(i)] = {}
@@ -111,7 +126,7 @@ def input_man(n):
 
             city_bri[str(i+j+1)][str(i)] = w
 
-    return city_bri
+    return n,i_max,city_bri
 
 
 
@@ -119,11 +134,11 @@ def input_man(n):
 
 if __name__ == "__main__":
 
-    n = int(input())
-    i_max = int(input())
+    #n = int(input())
+    #i_max = int(input())
 
 
-    city_bri=input_man(n)
+    n,i_max,city_bri=input_file()
 
 
     solucion,cost=sol_ini(n, city_bri)
