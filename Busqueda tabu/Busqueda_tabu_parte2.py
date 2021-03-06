@@ -1,5 +1,7 @@
 
 import random
+import numpy as np
+
 
 def min_st(tar, lim):
     do = float('inf')
@@ -12,7 +14,6 @@ def min_st(tar, lim):
                 do_i = key
 
     return [do_i, do]
-
 
 
 
@@ -48,6 +49,7 @@ def better_cost(dic,neighborhood):
     better_way=[]
     better_cost=float('inf')
 
+
     for i, neigh in enumerate(neighborhood):
         city_actual='0'
 
@@ -58,6 +60,7 @@ def better_cost(dic,neighborhood):
                 suma+=dic[city_actual][city]
                 city_actual=city
         suma+=dic[city_actual]['0']
+
 
         if suma<better_cost:
             better_way=neigh
@@ -173,6 +176,9 @@ if __name__ == "__main__":
     w_cost=-float('inf')
 
 
+    to_med=[]
+    aux_sol_mediana=[]
+
     for M in range(m):
 
         solucion,cost=sol_ini(n, city_bri)
@@ -182,8 +188,7 @@ if __name__ == "__main__":
 
         lista_tabu={}
 
-       
-        #print(M)
+
         for i in range(i_max):
 
 
@@ -204,29 +209,61 @@ if __name__ == "__main__":
 
             way_aux,cost_aux=better_cost(city_bri,neighborhood)
 
-            w_way_aux,w_cost_aux=worse_cost(city_bri,neighborhood)
 
             if cost_aux<cost:
                 solucion=way_aux
                 cost=cost_aux
             
-            if w_cost_aux>pcost:
-                psol=w_way_aux
-                pcost=w_cost_aux
 
         
         if cost<b_cost:
             b_cost=cost
             b_sol=solucion
 
-        if pcost>w_cost:
-            w_cost=pcost
-            w_sol=psol
+        if cost>w_cost:
+            w_cost=cost
+            w_sol=solucion
 
-    print("Solucion inicial",b_sol,b_cost)
+        to_med.append(cost)
+
+        aux_sol_mediana.append([solucion,cost])
+        
+
+    
+    to_med.sort()
+
+    if len(to_med)%2==0:
+        i_mediana=to_med[(len(to_med)//2)-1]
+        i_mediana=i_mediana+to_med[len(to_med)//2]
+        i_mediana=i_mediana/2
+
+    else:
+        i_mediana=to_med[len(to_med)//2]
+
+
+    withot_rep=[]
+
+    for item in aux_sol_mediana:
+        if item not in withot_rep:
+            withot_rep.append(item)
+
+
+    print("Solucion inicial",solucion,cost)
    
 
-    print(w_sol,w_cost)
-    #print("Solucion busqueda tabu:",solucion,cost)
+    print('Peor solucion:',w_sol,w_cost)
+    print("Mejor solucion:",b_sol,b_cost)
 
+
+    print('\nLas siguientes soluciones corresponden a la mediana:')
+
+    for elemento in withot_rep:
+        if elemento[1]==i_mediana:
+            print(elemento)
+
+    print('\n')
+
+    print("Media:",np.mean(to_med))
+
+    print("Desviacion estandar:",np.std(to_med))
  
