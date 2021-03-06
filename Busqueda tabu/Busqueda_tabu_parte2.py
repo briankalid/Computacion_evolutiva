@@ -42,8 +42,6 @@ def sol_ini(n, dic):
 
 
 
-def busqueda_tabu(cities,sol_tmp):
-    raise 
 
 def better_cost(dic,neighborhood):
 
@@ -67,6 +65,30 @@ def better_cost(dic,neighborhood):
 
     
     return better_way,better_cost
+
+
+def worse_cost(dic,neighborhood):
+    
+    worse_way=[]
+    worse_cost=-float('inf')
+
+    for i, neigh in enumerate(neighborhood):
+        city_actual='0'
+
+
+        suma=0
+        for j,city in enumerate(neigh):
+            if j>0:     
+                suma+=dic[city_actual][city]
+                city_actual=city
+        suma+=dic[city_actual]['0']
+
+        if suma>worse_cost:
+            worse_way=neigh
+            worse_cost=suma
+
+    return worse_way,worse_cost
+
 
 def gen_neighborhood(sol,l_tabu):
     neighborhood=[]
@@ -140,38 +162,71 @@ if __name__ == "__main__":
 
     n,i_max,city_bri=input_file()
 
+    m=int(input('M: '))
 
-    solucion,cost=sol_ini(n, city_bri)
 
-    lista_tabu={}
+
+    b_sol=[]
+    b_cost=float('inf')
+
+    w_sol=[]
+    w_cost=-float('inf')
+
+
+    for M in range(m):
+
+        solucion,cost=sol_ini(n, city_bri)
+
+        psol=[]
+        pcost=-float('inf')
+
+        lista_tabu={}
+
+       
+        #print(M)
+        for i in range(i_max):
+
+
+            neighborhood,sel_city=gen_neighborhood(solucion,lista_tabu)
+
+
+            lista_aux={}
+            for key in lista_tabu:
+                lista_tabu[key]=lista_tabu[key]-1
+
+                if lista_tabu[key] != 0:
+                    lista_aux[key] = lista_tabu[key]
+
+            lista_tabu=lista_aux
+
+            lista_tabu[sel_city]=n//2
+
+
+            way_aux,cost_aux=better_cost(city_bri,neighborhood)
+
+            w_way_aux,w_cost_aux=worse_cost(city_bri,neighborhood)
+
+            if cost_aux<cost:
+                solucion=way_aux
+                cost=cost_aux
+            
+            if w_cost_aux>pcost:
+                psol=w_way_aux
+                pcost=w_cost_aux
+
+        
+        if cost<b_cost:
+            b_cost=cost
+            b_sol=solucion
+
+        if pcost>w_cost:
+            w_cost=pcost
+            w_sol=psol
 
     print("Solucion inicial",solucion,cost)
    
 
-    for i in range(i_max):
-
-
-        neighborhood,sel_city=gen_neighborhood(solucion,lista_tabu)
-
-
-        lista_aux={}
-        for key in lista_tabu:
-            lista_tabu[key]=lista_tabu[key]-1
-
-            if lista_tabu[key] != 0:
-                lista_aux[key] = lista_tabu[key]
-
-        lista_tabu=lista_aux
-
-        lista_tabu[sel_city]=n//2
-
-
-        way_aux,cost_aux=better_cost(city_bri,neighborhood)
-
-        if cost_aux<cost:
-            solucion=way_aux
-            cost=cost_aux
-    
-    print("Solucion busqueda tabu:",solucion,cost)
+    print(w_sol,w_cost)
+    #print("Solucion busqueda tabu:",solucion,cost)
 
  
