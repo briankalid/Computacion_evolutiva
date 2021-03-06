@@ -70,28 +70,6 @@ def better_cost(dic,neighborhood):
     return better_way,better_cost
 
 
-def worse_cost(dic,neighborhood):
-    
-    worse_way=[]
-    worse_cost=-float('inf')
-
-    for i, neigh in enumerate(neighborhood):
-        city_actual='0'
-
-
-        suma=0
-        for j,city in enumerate(neigh):
-            if j>0:     
-                suma+=dic[city_actual][city]
-                city_actual=city
-        suma+=dic[city_actual]['0']
-
-        if suma>worse_cost:
-            worse_way=neigh
-            worse_cost=suma
-
-    return worse_way,worse_cost
-
 
 def gen_neighborhood(sol,l_tabu):
     neighborhood=[]
@@ -159,8 +137,6 @@ def input_file():
 
 if __name__ == "__main__":
 
-    #n = int(input())
-    #i_max = int(input())
 
 
     n,i_max,city_bri=input_file()
