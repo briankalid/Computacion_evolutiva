@@ -30,7 +30,6 @@ def sol_init(mu,n):
 
 
     return population
-    #raise
 
 
 
@@ -47,7 +46,6 @@ def mutation(var,fact,n,alpha,epsilon):
 
     return [mutation_x,mutation_sigma,fitness(mutation_x,n)]
 
-    #raise
 
 if __name__ == '__main__':
     #input
@@ -67,18 +65,12 @@ if __name__ == '__main__':
     parents = sol_init(mu,n)
     
     
-    #print(parents)
-    #parents = sol_init
-
-    print(len(parents))
 
     for i in range(G):
         new_gen = parents.copy()
 
         for p in parents:
-            #pass
             child = mutation(p[0],p[1],n,alpha,epsilon)
-            #print(child)
 
             new_gen.append(child)
 
